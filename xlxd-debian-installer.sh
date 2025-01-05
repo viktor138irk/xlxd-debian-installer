@@ -18,7 +18,9 @@ fi
 DIRDIR=$(pwd)
 LOCAL_IP=$(hostname -I | awk '{print $1}')
 INFREF=https://n5amd.com/digital-radio-how-tos/create-xlx-xrf-d-star-reflector/
+# ===== ===== ===== ===== =====
 XLXDREPO=https://github.com/vaikcode/xlxd.git
+# ===== ===== ===== ===== =====
 DMRIDURL=http://xlxapi.rlx.lu/api/exportdmr.php
 WEBDIR=/var/www/xlxd
 XLXINSTDIR=/root/reflector-install-files/xlxd
@@ -74,8 +76,8 @@ else
    cd $XLXINSTDIR
    git clone $XLXDREPO
    # ===== ===== ===== ===== =====
-   MAINH=$XLXINSTDIR/xlxd/src/main.h
-   sed -i "s/DMRIDDB_USE_RLX_SERVER          1/DMRIDDB_USE_RLX_SERVER          0/g" $MAINH
+   # MAINH=$XLXINSTDIR/xlxd/src/main.h
+   # sed -i "s/DMRIDDB_USE_RLX_SERVER          1/DMRIDDB_USE_RLX_SERVER          0/g" $MAINH
    # ===== ===== ===== ===== =====
    cd $XLXINSTDIR/xlxd/src
    make clean
@@ -99,7 +101,13 @@ fi
 echo "------------------------------------------------------------------------------"
 echo "Getting the DMRID.dat file... "
 echo "------------------------------------------------------------------------------"
+# ===== ===== ===== ===== =====
 #wget -O /xlxd/dmrid.dat $DMRIDURL
+touch /xlxd/dmrid.dat
+echo "7700001;RADIST1;" >> /xlxd/dmrid.dat
+echo "7700002;RADIST2;" >> /xlxd/dmrid.dat
+echo "7700003;RADIST3;" >> /xlxd/dmrid.dat
+# ===== ===== ===== ===== =====
 echo "------------------------------------------------------------------------------"
 echo "Copying web dashboard files and updating init script... "
 cp -R $XLXINSTDIR/xlxd/dashboard/* /var/www/xlxd/
@@ -123,10 +131,10 @@ chown -R www-data:www-data /xlxd/
 a2ensite $XLXDOMAIN
 a2dissite 000-default
 # ===== ===== ===== ===== =====
-WEBCONFIG=$WEBDIR/pgs/config.inc.php
-sed -i "s/PageOptions['RepeatersPage']['IPModus']             = 'ShowFullIP'/PageOptions['RepeatersPage']['IPModus']             = 'HideIP'/g" $WEBCONFIG
-sed -i "s/PageOptions['PeerPage']['IPModus']                  = 'ShowFullIP'/PageOptions['PeerPage']['IPModus']                  = 'HideIP'/g" $WEBCONFIG
-sed -i "s/CallingHome['Active']                               = false/CallingHome['Active']                               = true/g" $WEBCONFIG
+#WEBCONFIG=$WEBDIR/pgs/config.inc.php
+#sed -i "s/PageOptions['RepeatersPage']['IPModus']             = 'ShowFullIP'/PageOptions['RepeatersPage']['IPModus']             = 'HideIP'/g" $WEBCONFIG
+#sed -i "s/PageOptions['PeerPage']['IPModus']                  = 'ShowFullIP'/PageOptions['PeerPage']['IPModus']                  = 'HideIP'/g" $WEBCONFIG
+#sed -i "s/CallingHome['Active']                               = false/CallingHome['Active']                               = true/g" $WEBCONFIG
 # ===== ===== ===== ===== =====
 service xlxd start
 systemctl restart apache2
