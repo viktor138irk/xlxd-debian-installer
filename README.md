@@ -9,7 +9,7 @@ At the start of 2020 a new version of XLX was released that allows for native C4
 2. Have both a FQDN and 3 digit XLX number in mind before beginning.
 3. 
 ```sh
-git clone https://github.com/sever83/xlxd-debian-installer
+git clone https://github.com/viktor138irk/xlxd-debian-installer
 cd xlxd-debian-installer
 ./xlxd-debian-installer.sh
 ```
